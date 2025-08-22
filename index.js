@@ -7,10 +7,10 @@ function createLoginTracker(userInfo) {
   let locked = false; 
 
   // Arrow Function 
-  const attmeptLogin = (passwordAttempt) => {
-    // Check if Locked
+  const attemptLogin = (passwordAttempt) => {
+    // Check if already locked
     if (locked) {
-      return 'Account Locked After Three Failed Attempts';
+      return 'Account locked due to too many failed login attempts';
     }
 
     // Add Attempts 
@@ -20,16 +20,22 @@ function createLoginTracker(userInfo) {
     if (passwordAttempt === userInfo.password) {
       // Reset if Correct 
       attemptCount = 0;
-      return 'Login Successful';
+      return 'Login successful';
+
+    }
 
     // Password Failure 
-    if (attemptCount >= maxAttempts)
+    if (attemptCount >= maxAttempts) {
+      locked = true; 
+      return `Attempt ${attemptCount}: Login failed`;
+    } else {
+      return `Attempt ${attemptCount}: Login failed`;
     }
 
   };
 
   // Return 
-  return attmeptLogin;  
+  return attemptLogin;  
 
 }
 
